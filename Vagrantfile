@@ -25,8 +25,8 @@ MITAMAE_COOKBOOKS = [
 # MItamae Variables
 require 'yaml'
 YAML.dump({
-  :etcd => {
-    :enabled => true,
+  'etcd' => {
+    'enabled' => true,
   },
 }, File.open(File.join(File.expand_path(__dir__), 'vendor', 'mitamae.yaml'), 'w'))
 
@@ -189,7 +189,7 @@ Vagrant.configure('2') do |config|
           install -o root -g root -m 0755 /vagrant/vendor/mitamae/mitamae-x86_64-linux /usr/local/bin/mitamae
         fi
         cd /vagrant
-        mitamae local helpers/keeper.rb #{MITAMAE_COOKBOOKS.join(' ')}
+        mitamae local -y vendor/mitamae.yaml helpers/keeper.rb #{MITAMAE_COOKBOOKS.join(' ')}
       BASH
     end
 
