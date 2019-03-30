@@ -20,6 +20,7 @@ MITAMAE_COOKBOOKS = [
   'cookbooks/require/default.rb',
   'cookbooks/docker/default.rb',
   'cookbooks/etcd/default.rb',
+  'cookbooks/go/default.rb',
 ]
 
 # MItamae Variables
@@ -197,6 +198,8 @@ Vagrant.configure('2') do |config|
     domain.vm.provider :libvirt do |libvirt|
       # Enable Management Network
       libvirt.mgmt_attach = true
+      # Memory
+      libvirt.memory = 1024
       # Monitor
       libvirt.graphics_port = 5950
     end
