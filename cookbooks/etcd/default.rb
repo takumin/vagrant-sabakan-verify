@@ -60,7 +60,7 @@ end
 # Extract Archive
 #
 
-execute "tar -xvf /tmp/etcd-#{version}-linux-amd64.tar.gz" do
+execute "tar -xvf /tmp/etcd-#{version}-linux-amd64.tar.gz -C /tmp" do
   not_if [
     "test -e #{node[:etcd][:prefix]}/bin/etcd",
     "test -e /tmp/etcd-#{version}-linux-amd64",
