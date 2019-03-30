@@ -22,6 +22,14 @@ MITAMAE_COOKBOOKS = [
   'cookbooks/etcd/default.rb',
 ]
 
+# MItamae Variables
+require 'yaml'
+YAML.dump({
+  :etcd => {
+    :enabled => true,
+  },
+}, File.open(File.join(File.expand_path(__dir__), 'vendor', 'mitamae.yaml'), 'w'))
+
 # Download Require Binary
 require 'open-uri'
 [
