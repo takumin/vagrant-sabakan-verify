@@ -1,0 +1,6 @@
+[submodule "plugins/mitamae-plugin-resource-apt_repository"]
+	path = plugins/mitamae-plugin-resource-apt_repository
+	url = https://github.com/takumin/mitamae-plugin-resource-apt_repository.git
+[submodule "plugins/mitamae-plugin-resource-apt_keyring"]
+	path = plugins/mitamae-plugin-resource-apt_keyring
+	url = https://github.com/takumin/mitamae-plugin-resource-apt_keyring.git
