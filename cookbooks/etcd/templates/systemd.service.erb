@@ -1,0 +1,26 @@
+[Unit]
+Description=Etcd Daemon
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+PrivateTmp=true
+PrivateDevices=true
+ProtectSystem=full
+ProtectHome=true
+MountFlags=private
+NoNewPrivileges=true
+<%- case node['platform'] -%>
+<%- when 'debian', 'ubuntu' -%>
+EnvironmentFile=-/etc/default/etcd
+<%- when 'fedora', 'redhat', 'amazon' -%>
+EnvironmentFile=-/etc/sysconfig/etcd
+<%- end -%>
+User=<%= node[:etcd][:owner] %>
+Group=<%= node[:etcd][:owner] %>
+Type=notify
+Restart=on-failure
+ExecStart=<%= "#{node[:etcd][:prefix]}/bin/etcd" %> <%= @options.join(' ') %>
+
+[Install]
+WantedBy=multi-user.target

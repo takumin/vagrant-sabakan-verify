@@ -1,0 +1,8 @@
+#
+# Etcd Service Environment
+#
+<% node[:etcd][:environment].each do |key, val| -%>
+<%   if val.kind_of?(String) -%>
+<%= key %>="<%= val %>"
+<%   end -%>
+<% end -%>

@@ -19,6 +19,7 @@ MITAMAE_COOKBOOKS = [
   'cookbooks/apt/default.rb',
   'cookbooks/require/default.rb',
   'cookbooks/docker/default.rb',
+  'cookbooks/etcd/default.rb',
 ]
 
 # Download Require Binary
