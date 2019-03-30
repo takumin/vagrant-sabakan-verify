@@ -1,7 +1,9 @@
 # vim: set ft=ruby :
 
-ENV['UBUNTU_MIRROR'] ||= 'http:///ubuntu'
+# Mirror Apt Repository
 ENV['UBUNTU_PROXY']  ||= 'http://10.10.10.1:3142'
+ENV['UBUNTU_MIRROR'] ||= 'http:///ubuntu'
+ENV['DOCKER_MIRROR'] ||= 'http:///docker'
 
 # EDK2 OVMF Github Release Tag
 OVMF_RELEASE_TAG ||= '20190311'
@@ -11,6 +13,13 @@ IPXE_RELEASE_TAG ||= 'v20190327'
 
 # MItamae Github Release Tag
 MITAMAE_RELEASE_TAG ||= 'v1.7.4'
+
+# MItamae CookBooks
+MITAMAE_COOKBOOKS = [
+  'cookbooks/apt/default.rb',
+  'cookbooks/require/default.rb',
+  'cookbooks/docker/default.rb',
+]
 
 # Download Require Binary
 require 'open-uri'
@@ -162,15 +171,16 @@ Vagrant.configure('2') do |config|
         'HTTP_PROXY' => ENV['http_proxy'] || ENV['HTTP_PROXY'],
         'https_proxy' => ENV['https_proxy'] || ENV['HTTPS_PROXY'],
         'HTTPS_PROXY' => ENV['https_proxy'] || ENV['HTTPS_PROXY'],
-        'UBUNTU_MIRROR' => ENV['UBUNTU_MIRROR'],
         'UBUNTU_PROXY' => ENV['UBUNTU_PROXY'],
+        'UBUNTU_MIRROR' => ENV['UBUNTU_MIRROR'],
+        'DOCKER_MIRROR' => ENV['DOCKER_MIRROR'],
       }
       shell.inline = <<~BASH
         if ! mitamae version > /dev/null 2>&1; then
           install -o root -g root -m 0755 /vagrant/vendor/mitamae/mitamae-x86_64-linux /usr/local/bin/mitamae
         fi
         cd /vagrant
-        mitamae local cookbooks/apt/default.rb
+        mitamae local helpers/keeper.rb #{MITAMAE_COOKBOOKS.join(' ')}
       BASH
     end
 

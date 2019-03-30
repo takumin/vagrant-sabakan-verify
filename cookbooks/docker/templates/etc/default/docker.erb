@@ -1,0 +1,15 @@
+<%- if ENV['NO_PROXY'] or ENV['FTP_PROXY'] or ENV['HTTP_PROXY'] or ENV['HTTPS_PROXY'] -%>
+# Proxy Configuration
+<%-   if ENV['NO_PROXY'].kind_of?(String) and ENV['NO_PROXY'] != '' -%>
+NO_PROXY="<%= ENV['NO_PROXY'] %>"
+<%-   end -%>
+<%-   if ENV['FTP_PROXY'].kind_of?(String) and ENV['FTP_PROXY'] != '' -%>
+FTP_PROXY="<%= ENV['FTP_PROXY'] %>"
+<%-   end -%>
+<%-   if ENV['HTTP_PROXY'].kind_of?(String) and ENV['HTTP_PROXY'] != '' -%>
+HTTP_PROXY="<%= ENV['HTTP_PROXY'] %>"
+<%-   end -%>
+<%-   if ENV['HTTPS_PROXY'].kind_of?(String) and ENV['HTTPS_PROXY'] != '' -%>
+HTTPS_PROXY="<%= ENV['HTTPS_PROXY'] %>"
+<%-   end -%>
+<%- end -%>
