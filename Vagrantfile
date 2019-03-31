@@ -56,6 +56,9 @@ YAML.dump({
       'bmc-ipv4-range-mask'     => 24,
       'bmc-ipv4-gateway-offset' => 1
     },
+    'dhcp' => {
+      'gateway-offset' => 1,
+    },
   },
 }, File.open(File.join(File.expand_path(__dir__), 'vendor', 'mitamae.yaml'), 'w'))
 

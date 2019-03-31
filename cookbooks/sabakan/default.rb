@@ -68,6 +68,9 @@ end
 unless node[:sabakan][:ipam].kind_of?(Hash) then
   node[:sabakan][:ipam] = {}
 end
+unless node[:sabakan][:dhcp].kind_of?(Hash) then
+  node[:sabakan][:dhcp] = {}
+end
 unless node[:sabakan][:environment].kind_of?(Hash) then
   node[:sabakan][:environment] = {}
 end
@@ -197,6 +200,15 @@ file '/tmp/sabakan-ipam.json' do
 end
 
 execute "sabactl --server #{node[:sabakan][:config]['advertise-url']} ipam set -f /tmp/sabakan-ipam.json"
+
+file '/tmp/sabakan-dhcp.json' do
+  owner 'root'
+  group 'root'
+  mode  '0644'
+  content(JSON.pretty_generate(node[:sabakan][:dhcp]))
+end
+
+execute "sabactl --server #{node[:sabakan][:config]['advertise-url']} dhcp set -f /tmp/sabakan-dhcp.json"
 
 #
 # Event Handler
