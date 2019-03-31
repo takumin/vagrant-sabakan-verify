@@ -21,6 +21,7 @@ MITAMAE_COOKBOOKS = [
   'cookbooks/docker/default.rb',
   'cookbooks/etcd/default.rb',
   'cookbooks/go/default.rb',
+  'cookbooks/sabakan/default.rb',
 ]
 
 # MItamae Variables
@@ -28,6 +29,20 @@ require 'yaml'
 YAML.dump({
   'etcd' => {
     'enabled' => true,
+  },
+  'sabakan' => {
+    'enabled' => true,
+    'config' => {
+      'http' => '0.0.0.0:80',
+      'dhcp-bind' => '0.0.0.0:67',
+      'ipxe-efi-path' => '/vagrant/vendor/ipxe/snponly-x64.efi',
+      'advertise-url' => 'http://10.10.10.2:80',
+      'allow-ips' => [
+        '10.10.10.0/24',
+        '127.0.0.1',
+        '::1',
+      ],
+    },
   },
 }, File.open(File.join(File.expand_path(__dir__), 'vendor', 'mitamae.yaml'), 'w'))
 

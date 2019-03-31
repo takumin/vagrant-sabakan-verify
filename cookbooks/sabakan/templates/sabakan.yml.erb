@@ -1,0 +1,54 @@
+<%- if node[:sabakan][:config]['etcd'].kind_of?(Hash) -%>
+etcd:
+<%-   if node[:sabakan][:config]['etcd']['endpoints'].kind_of?(Array) -%>
+  endpoints:
+<%-     node[:sabakan][:config]['etcd']['endpoints'].each do |v| -%>
+    - <%= v %>
+<%-     end -%>
+<%-   end -%>
+<%-   if node[:sabakan][:config]['etcd']['prefix'].kind_of?(String) -%>
+  prefix: <%= node[:sabakan][:config]['etcd']['prefix'] %>
+<%-   end -%>
+<%-   if node[:sabakan][:config]['etcd']['timeout'].kind_of?(String) -%>
+  timeout: <%= node[:sabakan][:config]['etcd']['timeout'] %>
+<%-   end -%>
+<%-   if node[:sabakan][:config]['etcd']['username'].kind_of?(String) -%>
+  username: <%= node[:sabakan][:config]['etcd']['username'] %>
+<%-   end -%>
+<%-   if node[:sabakan][:config]['etcd']['password'].kind_of?(String) -%>
+  password: <%= node[:sabakan][:config]['etcd']['password'] %>
+<%-   end -%>
+<%-   if node[:sabakan][:config]['etcd']['tls-ca-file'].kind_of?(String) -%>
+  tls-ca-file: <%= node[:sabakan][:config]['etcd']['tls-ca-file'] %>
+<%-   end -%>
+<%-   if node[:sabakan][:config]['etcd']['tls-cert-file'].kind_of?(String) -%>
+  tls-cert-file: <%= node[:sabakan][:config]['etcd']['tls-cert-file'] %>
+<%-   end -%>
+<%-   if node[:sabakan][:config]['etcd']['tls-key-file'].kind_of?(String) -%>
+  tls-key-file: <%= node[:sabakan][:config]['etcd']['tls-key-file'] %>
+<%-   end -%>
+<%- end -%>
+<%- if node[:sabakan][:config]['advertise-url'].kind_of?(String) -%>
+advertise-url: <%= node[:sabakan][:config]['advertise-url'] %>
+<%- end -%>
+<%- if node[:sabakan][:config]['allow-ips'].kind_of?(Array) -%>
+allow-ips:
+<%-   node[:sabakan][:config]['allow-ips'].each do |v| -%>
+  - <%= v %>
+<%-   end -%>
+<%- end -%>
+<%- if node[:sabakan][:config]['data-dir'].kind_of?(String) -%>
+data-dir: <%= node[:sabakan][:config]['data-dir'] %>
+<%- end -%>
+<%- if node[:sabakan][:config]['dhcp-bind'].kind_of?(String) -%>
+dhcp-bind: <%= node[:sabakan][:config]['dhcp-bind'] %>
+<%- end -%>
+<%- if node[:sabakan][:config]['enable-playground'].kind_of?(FalseClass) || node[:sabakan][:config]['enable-playground'].kind_of?(TrueClass) -%>
+enable-playground: <%= node[:sabakan][:config]['enable-playground'] %>
+<%- end -%>
+<%- if node[:sabakan][:config]['http'].kind_of?(String) -%>
+http: <%= node[:sabakan][:config]['http'] %>
+<%- end -%>
+<%- if node[:sabakan][:config]['ipxe-efi-path'].kind_of?(String) -%>
+ipxe-efi-path: <%= node[:sabakan][:config]['ipxe-efi-path'] %>
+<%- end -%>

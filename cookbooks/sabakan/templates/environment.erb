@@ -1,0 +1,8 @@
+#
+# Sabakan Service Environment
+#
+<% node[:sabakan][:environment].each do |key, val| -%>
+<%   if val.kind_of?(String) -%>
+<%= key %>="<%= val %>"
+<%   end -%>
+<% end -%>
