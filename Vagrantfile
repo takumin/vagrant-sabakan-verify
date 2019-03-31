@@ -43,6 +43,19 @@ YAML.dump({
         '::1',
       ],
     },
+    'ipam' => {
+      'max-nodes-in-rack'       => 8,
+      'node-ipv4-pool'          => '10.10.10.0/24',
+      'node-ipv4-range-size'    => 4,
+      'node-ipv4-range-mask'    => 24,
+      'node-ip-per-node'        => 3,
+      'node-index-offset'       => 3,
+      'node-gateway-offset'     => 1,
+      'bmc-ipv4-pool'           => '10.10.11.0/24',
+      'bmc-ipv4-range-size'     => 4,
+      'bmc-ipv4-range-mask'     => 24,
+      'bmc-ipv4-gateway-offset' => 1
+    },
   },
 }, File.open(File.join(File.expand_path(__dir__), 'vendor', 'mitamae.yaml'), 'w'))
 

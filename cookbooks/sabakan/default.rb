@@ -65,6 +65,9 @@ end
 unless node[:sabakan][:config]['ipxe-efi-path'].kind_of?(String) then
   node[:sabakan][:config]['ipxe-efi-path'] = '/usr/lib/ipxe/ipxe.efi'
 end
+unless node[:sabakan][:ipam].kind_of?(Hash) then
+  node[:sabakan][:ipam] = {}
+end
 unless node[:sabakan][:environment].kind_of?(Hash) then
   node[:sabakan][:environment] = {}
 end
@@ -185,6 +188,15 @@ end
 service 'sabakan.service' do
   action action
 end
+
+file '/tmp/sabakan-ipam.json' do
+  owner 'root'
+  group 'root'
+  mode  '0644'
+  content(JSON.pretty_generate(node[:sabakan][:ipam]))
+end
+
+execute "sabactl --server #{node[:sabakan][:config]['advertise-url']} ipam set -f /tmp/sabakan-ipam.json"
 
 #
 # Event Handler
