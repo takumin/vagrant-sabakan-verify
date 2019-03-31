@@ -71,6 +71,24 @@ end
 unless node[:sabakan][:dhcp].kind_of?(Hash) then
   node[:sabakan][:dhcp] = {}
 end
+unless node[:sabakan][:kernel].kind_of?(Hash) then
+  node[:sabakan][:kernel] = {}
+end
+unless node[:sabakan][:kernel][:url].kind_of?(String) then
+  node[:sabakan][:kernel][:url] = 'https://stable.release.core-os.net/amd64-usr/current/coreos_production_pxe.vmlinuz'
+end
+unless node[:sabakan][:kernel][:path].kind_of?(String) then
+  node[:sabakan][:kernel][:path] = '/tmp/vmlinuz'
+end
+unless node[:sabakan][:initrd].kind_of?(Hash) then
+  node[:sabakan][:initrd] = {}
+end
+unless node[:sabakan][:initrd][:url].kind_of?(String) then
+  node[:sabakan][:initrd][:url] = 'https://stable.release.core-os.net/amd64-usr/current/coreos_production_pxe_image.cpio.gz'
+end
+unless node[:sabakan][:initrd][:path].kind_of?(String) then
+  node[:sabakan][:initrd][:path] = '/tmp/initrd.gz'
+end
 unless node[:sabakan][:environment].kind_of?(Hash) then
   node[:sabakan][:environment] = {}
 end
@@ -199,7 +217,7 @@ file '/tmp/sabakan-ipam.json' do
   content(JSON.pretty_generate(node[:sabakan][:ipam]))
 end
 
-execute "sabactl --server #{node[:sabakan][:config]['advertise-url']} ipam set -f /tmp/sabakan-ipam.json"
+execute ['sabactl', 'ipam', 'set', '-f', '/tmp/sabakan-ipam.json', '--server', node[:sabakan][:config]['advertise-url']].join(' ')
 
 file '/tmp/sabakan-dhcp.json' do
   owner 'root'
@@ -208,7 +226,24 @@ file '/tmp/sabakan-dhcp.json' do
   content(JSON.pretty_generate(node[:sabakan][:dhcp]))
 end
 
-execute "sabactl --server #{node[:sabakan][:config]['advertise-url']} dhcp set -f /tmp/sabakan-dhcp.json"
+execute ['sabactl', 'dhcp', 'set', '-f', '/tmp/sabakan-dhcp.json', '--server', node[:sabakan][:config]['advertise-url']].join(' ')
+
+http_request node[:sabakan][:kernel][:path] do
+  url node[:sabakan][:kernel][:url]
+  check_error true
+end
+
+http_request node[:sabakan][:initrd][:path] do
+  url node[:sabakan][:initrd][:url]
+  check_error true
+end
+
+execute [
+  'sabactl',
+  'images', 'upload',
+  'current', node[:sabakan][:kernel][:path], node[:sabakan][:initrd][:path],
+  '--server', node[:sabakan][:config]['advertise-url']
+].join(' ')
 
 #
 # Event Handler

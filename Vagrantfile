@@ -59,6 +59,12 @@ YAML.dump({
     'dhcp' => {
       'gateway-offset' => 1,
     },
+    'kernel' => {
+      'path' => './vendor/coreos/coreos_production_pxe.vmlinuz',
+    },
+    'initrd' => {
+      'path' => './vendor/coreos/coreos_production_pxe_image.cpio.gz',
+    },
   },
 }, File.open(File.join(File.expand_path(__dir__), 'vendor', 'mitamae.yaml'), 'w'))
 
@@ -84,6 +90,13 @@ require 'open-uri'
     :name => 'mitamae',
     :urls => [
       "https://github.com/itamae-kitchen/mitamae/releases/download/#{MITAMAE_RELEASE_TAG}/mitamae-x86_64-linux",
+    ],
+  },
+  {
+    :name => 'coreos',
+    :urls => [
+      'https://stable.release.core-os.net/amd64-usr/current/coreos_production_pxe.vmlinuz',
+      'https://stable.release.core-os.net/amd64-usr/current/coreos_production_pxe_image.cpio.gz',
     ],
   },
 ].each {|item|
@@ -230,7 +243,7 @@ Vagrant.configure('2') do |config|
       # Enable Management Network
       libvirt.mgmt_attach = true
       # Memory
-      libvirt.memory = 1024
+      libvirt.memory = 2048
       # Monitor
       libvirt.graphics_port = 5950
     end
