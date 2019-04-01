@@ -97,10 +97,16 @@ execute 'go get sabakan repository' do
   command "env GOPATH=/tmp/sabakan /usr/local/go/bin/go get -u #{node[:sabakan][:repository]}/..."
   user "#{node['current']['user']}"
   not_if [
-    'test -d /tmp/sabakan',
-    "test -e #{node[:sabakan][:prefix]}/bin/sabakan",
-    "test -e #{node[:sabakan][:prefix]}/bin/sabactl",
-    "test -e #{node[:sabakan][:prefix]}/bin/sabakan-cryptsetup",
+    '(' + [
+      'test -e /tmp/sabakan/bin/sabakan',
+      'test -e /tmp/sabakan/bin/sabactl',
+      'test -e /tmp/sabakan/bin/sabakan-cryptsetup',
+    ].join(' && ') + ')',
+    '( ' + [
+      "test -e #{node[:sabakan][:prefix]}/bin/sabakan",
+      "test -e #{node[:sabakan][:prefix]}/bin/sabactl",
+      "test -e #{node[:sabakan][:prefix]}/bin/sabakan-cryptsetup",
+    ].join(' && ') + ' )',
   ].join(' || ')
 end
 
