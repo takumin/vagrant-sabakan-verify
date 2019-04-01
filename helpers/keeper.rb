@@ -22,6 +22,10 @@ when 'ubuntu'
   node['platform_family'] ||= 'debian'
 end
 
+unless node[:proxy].kind_of?(Hash) then
+  node[:proxy] = {}
+end
+
 proxy_regex = /^(socks|https?):\/\/(?:([0-9a-zA-Z-_\.]+):([0-9a-zA-Z-_\.]+)@)?([0-9a-zA-Z-_\.]+)(?::([0-9]+))?.*/
 
 if ENV['HTTP_PROXY'] then
