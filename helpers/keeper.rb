@@ -63,3 +63,10 @@ if ENV['NO_PROXY'] then
 elsif ENV['no_proxy'] then
   node[:proxy][:bypass] ||= ENV['no_proxy'].split(',')
 end
+if ENV['NO_PROXY'] or ENV['no_proxy'] then
+  node[:proxy][:bypass].push('localhost')      unless node[:proxy][:bypass].include?('localhost')
+  node[:proxy][:bypass].push('127.0.0.0/8')    unless node[:proxy][:bypass].include?('127.0.0.0/8')
+  node[:proxy][:bypass].push('10.0.0.0/8')     unless node[:proxy][:bypass].include?('10.0.0.0/8')
+  node[:proxy][:bypass].push('172.16.0.0/12')  unless node[:proxy][:bypass].include?('172.16.0.0/12')
+  node[:proxy][:bypass].push('192.168.0.0/16') unless node[:proxy][:bypass].include?('192.168.0.0/16')
+end
