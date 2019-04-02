@@ -216,6 +216,15 @@ service 'sabakan.service' do
   action action
 end
 
+local_ruby_block 'wait service started' do
+  block do
+    # Workaround
+    sleep 1
+  end
+end
+
+server_uri = 'http://127.0.0.1:' + node[:sabakan][:config]['http'].gsub(/.*:([0-9]+)/, '\1')
+
 file '/tmp/sabakan-ipam.json' do
   owner 'root'
   group 'root'
@@ -223,7 +232,11 @@ file '/tmp/sabakan-ipam.json' do
   content(JSON.pretty_generate(node[:sabakan][:ipam]))
 end
 
-execute ['sabactl', 'ipam', 'set', '-f', '/tmp/sabakan-ipam.json', '--server', node[:sabakan][:config]['advertise-url']].join(' ')
+execute [
+  'sabactl',
+  'ipam', 'set', '-f', '/tmp/sabakan-ipam.json',
+  '--server', server_uri
+].join(' ')
 
 file '/tmp/sabakan-dhcp.json' do
   owner 'root'
@@ -232,7 +245,11 @@ file '/tmp/sabakan-dhcp.json' do
   content(JSON.pretty_generate(node[:sabakan][:dhcp]))
 end
 
-execute ['sabactl', 'dhcp', 'set', '-f', '/tmp/sabakan-dhcp.json', '--server', node[:sabakan][:config]['advertise-url']].join(' ')
+execute [
+  'sabactl',
+  'dhcp', 'set', '-f', '/tmp/sabakan-dhcp.json',
+  '--server', server_uri
+].join(' ')
 
 http_request node[:sabakan][:kernel][:path] do
   url node[:sabakan][:kernel][:url]
@@ -248,7 +265,7 @@ execute [
   'sabactl',
   'images', 'upload',
   'current', node[:sabakan][:kernel][:path], node[:sabakan][:initrd][:path],
-  '--server', node[:sabakan][:config]['advertise-url']
+  '--server', server_uri
 ].join(' ')
 
 #
