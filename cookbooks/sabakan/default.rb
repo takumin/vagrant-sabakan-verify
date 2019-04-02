@@ -74,6 +74,15 @@ end
 unless node[:sabakan][:machines].kind_of?(Array) then
   node[:sabakan][:machines] = {}
 end
+unless node[:sabakan][:ignitions].kind_of?(Hash) then
+  node[:sabakan][:ignitions] = {}
+end
+unless node[:sabakan][:ignitions][:main].kind_of?(Hash) then
+  node[:sabakan][:ignitions][:main] = {}
+end
+unless node[:sabakan][:ignitions][:passwd].kind_of?(Hash) then
+  node[:sabakan][:ignitions][:passwd] = {}
+end
 unless node[:sabakan][:kernel].kind_of?(Hash) then
   node[:sabakan][:kernel] = {}
 end
@@ -281,6 +290,26 @@ end
 execute [
   'sabactl',
   'machines', 'create', '-f', '/tmp/sabakan-machines.json',
+  '--server', server_uri
+].join(' ')
+
+file '/tmp/sabakan-ignitions.yaml' do
+  owner 'root'
+  group 'root'
+  mode  '0644'
+  content(YAML.dump(node[:sabakan][:ignitions][:main]))
+end
+
+file '/tmp/sabakan-passwd.yaml' do
+  owner 'root'
+  group 'root'
+  mode  '0644'
+  content(YAML.dump(node[:sabakan][:ignitions][:passwd]))
+end
+
+execute [
+  'sabactl',
+  'ignitions', 'set', '-f', '/tmp/sabakan-ignitions.yaml', 'boot', '1',
   '--server', server_uri
 ].join(' ')
 

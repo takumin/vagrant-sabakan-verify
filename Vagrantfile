@@ -64,13 +64,32 @@ YAML.dump({
       {
         'serial' => '1',
         'rack'   => 0,
-        'role'   => 'test',
-        'bmc' => {
+        'role'   => 'boot',
+        'bmc'    => {
           'type' => 'IPMI-2.0',
           'ipv4' => '',
         },
       },
     ],
+    'ignitions' => {
+      'main' => {
+        'version' => '2.3',
+        'passwd' => '/tmp/sabakan-passwd.yaml',
+      },
+      'passwd' => {
+        'users' => [
+          {
+            'name' => 'vagrant',
+            'passwordHash' => '$6$rounds=4096$A4Cl2bvnLrGF$OpnvVYU2Dma9FIxlpcYZtFH6f1WvKfE9sLcnyWd6qWEyo1o7lvh..VZS6ZHmKEec3u8vlCawgJxUb.Ndbx0S5/',
+          },
+        ],
+        'groups' => [
+          {
+            'name' => 'vagrant',
+          },
+        ],
+      },
+    },
     'kernel' => {
       'path' => './vendor/coreos/coreos_production_pxe.vmlinuz',
     },
