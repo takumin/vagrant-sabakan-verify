@@ -85,7 +85,7 @@ YAML.dump({
         ],
         'groups' => [
           {
-            'name' => 'vagrant',
+            'name' => 'libvirt',
           },
         ],
       },
