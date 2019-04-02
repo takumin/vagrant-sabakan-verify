@@ -93,17 +93,8 @@ unless node[:sabakan][:environment].kind_of?(Hash) then
   node[:sabakan][:environment] = {}
 end
 
-go_get_env = [
-  'GOPATH=/tmp/sabakan',
-]
-
-if node[:proxy][:uri] then
-  go_get_env << "http_proxy=#{node[:proxy][:uri]}"
-  go_get_env << "https_proxy=#{node[:proxy][:uri]}"
-end
-
 execute 'go get sabakan repository' do
-  command "env #{go_get_env.join(' ')} /usr/local/go/bin/go get -u #{node[:sabakan][:repository]}/..."
+  command "env GOPATH=/tmp/sabakan /usr/local/go/bin/go get -u #{node[:sabakan][:repository]}/..."
   user "#{node['current']['user']}"
   not_if [
     '(' + [
