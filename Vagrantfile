@@ -288,7 +288,7 @@ Vagrant.configure('2') do |config|
       libvirt.qemuargs :value => '-smbios'
       libvirt.qemuargs :value => 'type=1,serial=1'
       # Memory
-      libvirt.memory = 1024
+      libvirt.memory = 2048
       # Monitor
       libvirt.graphics_port = 5951
       # PXE Boot
