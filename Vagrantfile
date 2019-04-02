@@ -244,7 +244,7 @@ Vagrant.configure('2') do |config|
       # Enable Management Network
       libvirt.mgmt_attach = true
       # Memory
-      libvirt.memory = 2048
+      libvirt.memory = 4096
       # Monitor
       libvirt.graphics_port = 5950
     end
