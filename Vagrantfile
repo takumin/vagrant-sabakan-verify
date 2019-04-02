@@ -17,6 +17,7 @@ MITAMAE_RELEASE_TAG ||= 'v1.7.4'
 # MItamae CookBooks
 MITAMAE_COOKBOOKS = [
   'cookbooks/apt/default.rb',
+  'cookbooks/sudo/default.rb',
   'cookbooks/require/default.rb',
   'cookbooks/docker/default.rb',
   'cookbooks/etcd/default.rb',
