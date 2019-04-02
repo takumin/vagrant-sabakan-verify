@@ -60,6 +60,17 @@ YAML.dump({
     'dhcp' => {
       'gateway-offset' => 1,
     },
+    'machines' => [
+      {
+        'serial' => '1',
+        'rack'   => 0,
+        'role'   => 'test',
+        'bmc' => {
+          'type' => 'IPMI-2.0',
+          'ipv4' => '',
+        },
+      },
+    ],
     'kernel' => {
       'path' => './vendor/coreos/coreos_production_pxe.vmlinuz',
     },
@@ -254,6 +265,9 @@ Vagrant.configure('2') do |config|
   config.vm.define :gateway do |domain|
     # Libvirt Provider Configuration
     domain.vm.provider :libvirt do |libvirt|
+      # SMBIOS serial number
+      libvirt.qemuargs :value => '-smbios'
+      libvirt.qemuargs :value => 'type=1,serial=1'
       # Memory
       libvirt.memory = 1024
       # Monitor

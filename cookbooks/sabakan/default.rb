@@ -71,6 +71,9 @@ end
 unless node[:sabakan][:dhcp].kind_of?(Hash) then
   node[:sabakan][:dhcp] = {}
 end
+unless node[:sabakan][:machines].kind_of?(Array) then
+  node[:sabakan][:machines] = {}
+end
 unless node[:sabakan][:kernel].kind_of?(Hash) then
   node[:sabakan][:kernel] = {}
 end
@@ -265,6 +268,19 @@ execute [
   'sabactl',
   'images', 'upload',
   'current', node[:sabakan][:kernel][:path], node[:sabakan][:initrd][:path],
+  '--server', server_uri
+].join(' ')
+
+file '/tmp/sabakan-machines.json' do
+  owner 'root'
+  group 'root'
+  mode  '0644'
+  content(JSON.pretty_generate(node[:sabakan][:machines]))
+end
+
+execute [
+  'sabactl',
+  'machines', 'create', '-f', '/tmp/sabakan-machines.json',
   '--server', server_uri
 ].join(' ')
 
